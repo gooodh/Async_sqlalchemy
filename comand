@@ -1,0 +1,33 @@
+alembic init -t async migration
+
+; Измененный код migration/env.py
+; import asyncio
+; from logging.config import fileConfig
+; from sqlalchemy import pool
+; from sqlalchemy.engine import Connection
+; from sqlalchemy.ext.asyncio import async_engine_from_config
+; from alembic import context
+; from database import Base, DATABASE_URL
+; from models import User, Comment, Post, Profile
+
+; config = context.config
+; config.set_main_option("sqlalchemy.url", DATABASE_URL)
+
+; if config.config_file_name is not None:
+;     fileConfig(config.config_file_name)
+
+; target_metadata = Base.metadata
+; # остальной код оставляем без изменений 
+
+alembic revision --autogenerate -m "Initial revision"
+
+
+alembic upgrade head #Обновление базы данных до последней версии миграции
+
+
+alembic downgrade -1  # Чтобы откатить миграцию на одну версию назад или alembic downgrade d97a9824423b
+
+
+
+alembic current
+
