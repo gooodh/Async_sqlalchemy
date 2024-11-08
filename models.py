@@ -11,7 +11,7 @@ class User(Base):
     username: Mapped[uniq_str_an]
     email: Mapped[uniq_str_an]
     password: Mapped[str]
-    profile_id: Mapped[int | None] = mapped_column(ForeignKey("profiles.id"))
+    # profile_id: Mapped[int | None] = mapped_column(ForeignKey("profiles.id"))
 
     # Связь один-к-одному с Profile
     profile: Mapped["Profile"] = relationship(
@@ -35,7 +35,6 @@ class User(Base):
         cascade="all, delete-orphan",  # При удалении User удаляются и связанные Comment
     )
 
-
 class Profile(Base):
     first_name: Mapped[str]
     last_name: Mapped[str | None]
@@ -48,6 +47,9 @@ class Profile(Base):
     interests: Mapped[MutableList[str]] = mapped_column(MutableList.as_mutable(JSON))
 
     contacts: Mapped[dict | None] = mapped_column(JSON)
+
+        # Внешний ключ на таблицу users
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), unique=True)
 
     # Обратная связь один-к-одному с User
     user: Mapped["User"] = relationship("User", back_populates="profile", uselist=False)
