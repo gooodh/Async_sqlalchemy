@@ -17,9 +17,9 @@ class Settings(BaseSettings):
 
     def get_db_url(self):
         # DB_URL=postgresql+asyncpg://login:password@localhost:5432/db_name
-        # return (f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@"
-        #         f"{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}")
-        return "postgresql+asyncpg://postgres_container:postgres_container@172.18.0.2:5432/postgres"
+        return (f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@"
+                f"{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}")
+        # return "postgresql+asyncpg://postgres_container:postgres_container@172.18.0.2:5432/postgres"
 
         
 settings = Settings()

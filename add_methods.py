@@ -100,15 +100,53 @@ async def get_user_by_id_example_3(username: str, email: str, password: str,
         raise e
 
 
+@connection
+async def create_user_example_4(users_data: list[dict], session: AsyncSession) -> list[int]:
+    """
+    Создает нескольких пользователей с использованием ORM SQLAlchemy.
+
+    Аргументы:
+    - users_data: list[dict] - список словарей, содержащих данные пользователей
+      Каждый словарь должен содержать ключи: 'username', 'email', 'password'.
+    - session: AsyncSession - асинхронная сессия базы данных
+
+    Возвращает:
+    - list[int] - список идентификаторов созданных пользователей
+    """
+    users_list = [
+        User(
+            username=user_data['username'],
+            email=user_data['email'],
+            password=user_data['password']
+        )
+        for user_data in users_data
+    ]
+    session.add_all(users_list)
+    await session.commit()
+    return [user.id for user in users_list]
+
+
+users = [
+    {"username": "michael_brown", "email": "michael.brown@example.com", "password": "pass1234"},
+    {"username": "sarah_wilson", "email": "sarah.wilson@example.com", "password": "mysecurepwd"},
+    {"username": "david_clark", "email": "david.clark@example.com", "password": "davidsafe123"},
+    {"username": "emma_walker", "email": "emma.walker@example.com", "password": "walker987"},
+    {"username": "james_martin", "email": "james.martin@example.com", "password": "martinpass001"}
+]
+
+
 user_profile = run(get_user_by_id_example_3(
-    username="dao",
-    email="dao@example.com",
-    password="password7123",
-    first_name="dao",
-    last_name="Dao",
+    username="siao",
+    email="siao@example.com",
+    password="passwordsiao7123",
+    first_name="siao",
+    last_name="siao",
     age=28,
     gender=GenderEnum.MALE,
     profession=ProfessionEnum.ENGINEER,
     interests=["hiking", "photography", "coding"],
-    contacts={"phone": "+723456789", "email": "dao@example.com"},
+    contacts={"phone": "+823456789", "email": "siao@example.com"},
 ))
+
+
+# run(create_user_example_4(users_data=users))
