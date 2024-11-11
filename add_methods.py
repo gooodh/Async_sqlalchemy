@@ -113,14 +113,7 @@ async def create_user_example_4(users_data: list[dict], session: AsyncSession) -
     Возвращает:
     - list[int] - список идентификаторов созданных пользователей
     """
-    users_list = [
-        User(
-            username=user_data['username'],
-            email=user_data['email'],
-            password=user_data['password']
-        )
-        for user_data in users_data
-    ]
+    users_list = [User(username=user_data['username'], email=user_data['email'], password=user_data['password']) for user_data in users_data]
     session.add_all(users_list)
     await session.commit()
     return [user.id for user in users_list]
